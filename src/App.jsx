@@ -22,8 +22,7 @@ function App() {
           theme="dark"
         />
 
-        {signupView && <SignUpModal />}
-        {loginView && <LoginModel />}
+        
       </LoginProvider>
     </SignupProvider>
   );
