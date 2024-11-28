@@ -34,7 +34,6 @@ const LocationFiled = ({ onChange, value }) => {
   // Update selectedOptions if a value is passed from the parent
   useEffect(() => {
     if (value && districts.length > 0) {
-      // Find the district object based on the value (_id)
       const selectedDistrict = districts.find(
         (district) => district._id === value
       );
@@ -66,17 +65,20 @@ const LocationFiled = ({ onChange, value }) => {
 
   return (
     <div className="w-full mb-2">
-      <label htmlFor="location" className="text-[15px] font-[400]">
+      <label
+        htmlFor="location"
+        className="text-[15px] text-gray-500 font-[400]"
+      >
         Location
       </label>
-      <div className="w-full relative custom-select">
+      <div className="relative w-full custom-select">
         <input
           type="text"
           placeholder="Search.."
           value={selectedOptions ? selectedOptions.name : search} // Display selected district name or search query
           onChange={(e) => setSearch(e.target.value)}
           onFocus={() => setIsOpen(true)}
-          className={`w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none`}
+          className={`w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none`}
         />
         <div className="absolute top-[50%] transform translate-y-[-50%] right-3 flex items-center gap-2">
           {/* close button  */}
@@ -97,7 +99,7 @@ const LocationFiled = ({ onChange, value }) => {
 
         {/* Dropdown menu */}
         {isOpen && (
-          <div className="absolute left-0 z-20 w-full max-h-60 overflow-auto mt-1 p-1 bg-white border rounded-md shadow-lg top-full">
+          <div className="absolute left-0 z-20 w-full p-1 mt-1 overflow-auto bg-white border rounded-md shadow-lg max-h-60 top-full">
             <div className="w-full overflow-auto">
               {filteredItems.map((item) => (
                 <p

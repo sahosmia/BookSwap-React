@@ -1,17 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
-import BookDetails from "../components/book/BookDetails";
-import BookOwnerInfo from "../components/book/BookOwnerInfo";
-import BookUploadForm from "../components/BookUploadForm";
+import BookUploadForm from "../Pages/BookUploadForm";
 import Messages from "../components/navbar/Messages";
 import Notification from "../components/navbar/Notification";
-import Profile from "../components/navbar/Profile";
+import Profile from "../Pages/Profile";
 import Layouts from "../layouts/Layouts";
 import Contacts from "../Pages/Contacts";
 import Help from "../Pages/Help";
 import Home from "../Pages/Home";
 import PrivacyPolicy from "../Pages/PrivacyPolicy";
 import TermsOfUse from "../Pages/TermsOfUse";
-import Cart from "../components/navbar/Wishlists.jsx";
+import ProtectedRoute from "../components/ProtectedRoute";
+import Wishlists from "../Pages/Wishlists";
+import BookDetails from "../Pages/BookDetails";
+import BookUpdatePage from "../Pages/BookUpdatePage";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,14 @@ const router = createBrowserRouter([
     element: <Layouts />,
     children: [
       { path: "", element: <Home /> },
-      { path: "profile", element: <Profile /> },
+      {
+        path: "profile",
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "/messages",
         element: <Messages />,
@@ -30,7 +38,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/wishlists",
-        element: <Cart />,
+        element: <Wishlists />,
       },
       {
         path: "/contacts",
@@ -48,25 +56,9 @@ const router = createBrowserRouter([
         path: "/help",
         element: <Help />,
       },
-      {
-        path: "/profile",
-        element: <BookOwnerInfo />,
-      },
 
       {
-        path: "/account",
-        element: <h1>Account</h1>,
-      },
-      {
-        path: "/dashBoard",
-        element: <h1>DashBoard</h1>,
-      },
-      {
-        path: "/logout",
-        element: <h1>Logout</h1>,
-      },
-      {
-        path: "/book/:id",
+        path: "/book/:slug",
         element: <BookDetails />,
       },
       {
@@ -76,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/bookuploadform",
         element: <BookUploadForm />,
+      },
+      {
+        path: "/book/edit/:slug",
+        element: <BookUpdatePage />,
       },
 
       // Add more routes here

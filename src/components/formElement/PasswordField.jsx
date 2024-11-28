@@ -5,10 +5,13 @@ const PasswordField = ({ value, onChange }) => {
   const [isEyeOpen, setIsEyeOpen] = useState(false);
   return (
     <div className="w-full mb-2">
-      <label htmlFor="password" className="text-[15px] font-[400]">
+      <label
+        htmlFor="password"
+        className="text-[15px] text-gray-500 font-[400]"
+      >
         Password
       </label>
-      <div className="w-full relative">
+      <div className="relative w-full">
         <input
           type={isEyeOpen ? "text" : "password"}
           name="password"

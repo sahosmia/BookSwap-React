@@ -1,10 +1,54 @@
-import React from "react";
-import LoginModal from "../components/SignUpModal";
+import { useState } from "react";
 
 const TermsOfUse = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+
+    if (!selectedFile) {
+      alert("Please select a file first!");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("avater", selectedFile);
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/users/upload_avater/6736e4b084f2ecab73434fe2", // Replace with the correct user ID
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("Avatar uploaded successfully!");
+        console.log("Server Response:", result);
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      alert("Something went wrong. Please try again.");
+      alert(error.message);
+    }
+  };
+
   return (
-    <div className="h-[500px]  w-full mx-auto pt-52 bg-opacity-15 z-10  bg-[url('https://i.pinimg.com/564x/cb/be/72/cbbe720dfad485f4aa2f561959abb7b8.jpg')] relative after:absolute after:w-full after:h-full after:inset-0 after:bg-white  after:-z-10 after:bg-opacity-80">
-      <LoginModal />
+    <div>
+      <h1>Upload Avatar</h1>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <input type="file" name="avater" onChange={handleFileChange} />
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 };

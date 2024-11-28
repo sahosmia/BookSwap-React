@@ -3,22 +3,25 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { RouterProvider } from "react-router-dom";
 import router from "./router/router";
-import SignupProvider from "./context/SignupContext";
-import LoginProvider from "./context/loginContext";
+import { AuthProvider } from "./context/AuthContext";
+import LoginModalProvider from "./context/LoginModalContext";
+import RegisterModalProvider from "./context/RegisterModalContext";
 
 function App() {
   return (
-    <SignupProvider>
-      <LoginProvider>
-        <RouterProvider router={router}></RouterProvider>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={4000}
-          newestOnTop
-          theme="dark"
-        />
-      </LoginProvider>
-    </SignupProvider>
+    <AuthProvider>
+      <RegisterModalProvider>
+        <LoginModalProvider>
+          <RouterProvider router={router}></RouterProvider>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={4000}
+            newestOnTop
+            theme="dark"
+          />
+        </LoginModalProvider>
+      </RegisterModalProvider>
+    </AuthProvider>
   );
 }
 

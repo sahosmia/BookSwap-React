@@ -6,33 +6,17 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import useAuth from "../../hooks/useAuth";
-import { useSignupViewDispatch } from "../../context/SignUpContext";
-import { useLoginViewDispatch } from "../../context/loginContext";
+import { useRegisterModal } from "../../context/RegisterModalContext";
+import { useLoginModal } from "../../context/LoginModalContext";
+import { profileDropdown } from "../../data/dummyData";
+import { useAuth } from "../../context/AuthContext";
 
 const ProfileDropdown = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const { token } = useAuth();
-  const signupDispatch = useSignupViewDispatch();
-  const loginDispatch = useLoginViewDispatch();
-
-  const settings = [
-    {
-      label: "Profile",
-      plink: "/profile",
-    },
-    {
-      label: "Account",
-      plink: "/account",
-    },
-    {
-      label: "Dashboard",
-      plink: "/dashboard",
-    },
-  ];
-
+  const { token, user, logout } = useAuth();
+  const { setRegisterModal } = useRegisterModal();
+  const { setLoginModal } = useLoginModal();
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -41,9 +25,7 @@ const ProfileDropdown = () => {
     setAnchorElUser(null);
   };
   const handleLogout = () => {
-    console.log("logout");
-
-    Cookies.remove("token", { path: "/" });
+    logout();
     toast.warn("Opps! You are now logged out");
     setAnchorElUser(null);
   };
@@ -62,8 +44,13 @@ const ProfileDropdown = () => {
             },
           }}
         >
-          <Avatar alt="" src="/static/images/avatar/2.jpg" />
-          {/* <span className="text-sm font-bold ">Account</span> */}
+          {/* <img src={user?.avater} alt="pr" /> */}
+          <Avatar
+            alt={user?.name}
+            src={
+              user?.avater ? `${user?.avater}` : "/path/to/fallback-image.jpg"
+            }
+          />
         </IconButton>
         <Menu
           sx={{ mt: "45px" }}
@@ -82,17 +69,21 @@ const ProfileDropdown = () => {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          {token !== undefined
+          {token
             ? [
-                ...settings.map((setting) => (
+                ...profileDropdown.map((item) => (
                   <MenuItem
-                    key={setting.plink}
-                    className="w-96"
+                    key={item.plink}
+                    component={Link}
+                    to={item.plink}
                     onClick={handleCloseUserMenu}
+                    sx={{
+                      width: "100%",
+                      display: "block",
+                      textDecoration: "none", // Removes underline
+                    }}
                   >
-                    <Link to={setting.plink} sx={{ textAlign: "center" }}>
-                      {setting.label}
-                    </Link>
+                    {item.label}
                   </MenuItem>
                 )),
                 <MenuItem key="logout" onClick={handleLogout}>
@@ -104,9 +95,7 @@ const ProfileDropdown = () => {
                   key="signup"
                   onClick={() => {
                     handleCloseUserMenu();
-                    signupDispatch({
-                      type: "sign_up_true",
-                    });
+                    setRegisterModal(true);
                   }}
                 >
                   <button>Sign Up</button>
@@ -116,9 +105,7 @@ const ProfileDropdown = () => {
                   key="login"
                   onClick={() => {
                     handleCloseUserMenu();
-                    loginDispatch({
-                      type: "login_true",
-                    });
+                    setLoginModal(true);
                   }}
                 >
                   <button>Login</button>

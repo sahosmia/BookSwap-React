@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import BookItem from "../book/BookItem";
+import BookItem from "../components/book/BookItem";
 
 const Wishlists = () => {
   const [wishlist, setWishlist] = useState([]);

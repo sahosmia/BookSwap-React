@@ -69,7 +69,7 @@ const NotificationBox = () => {
             p: 0,
           }}
         >
-          <IoMdNotificationsOutline className="h-10 w-8" />
+          <IoMdNotificationsOutline className="w-8 h-10" />
         </IconButton>
 
         <Popover
@@ -95,7 +95,7 @@ const NotificationBox = () => {
                   alt="Profile"
                   className="w-10 h-10 rounded-full"
                 />
-                <div className="ml-4 flex-grow">
+                <div className="flex-grow ml-4">
                   <p className="text-sm">
                     <strong>{notification.username}</strong> Follow you.
                   </p>

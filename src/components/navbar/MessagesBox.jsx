@@ -77,7 +77,7 @@ const MessageBox = () => {
             p: 0,
           }}
         >
-          <BiConversation className="h-10 w-8" />{" "}
+          <BiConversation className="w-8 h-10" />{" "}
         </IconButton>
 
         <Popover
@@ -106,10 +106,10 @@ const MessageBox = () => {
                   className="w-10 h-10 rounded-full"
                 />
                 <div className="ml-3">
-                  <p className=" text-md flex items-center">
+                  <p className="flex items-center  text-md">
                     <span className="font-semibold">{messages.username}</span>
                   </p>
-                  <div className="text-md text-gray-400 flex">
+                  <div className="flex text-gray-400 text-md">
                     <span>You: {messages.message}</span>
                   </div>
                 </div>
