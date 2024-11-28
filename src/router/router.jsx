@@ -13,6 +13,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import Wishlists from "../Pages/Wishlists";
 import BookDetails from "../Pages/BookDetails";
 import BookUpdatePage from "../Pages/BookUpdatePage";
+import Search from "../Pages/Search";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/messages",
         element: <Messages />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
       {
         path: "/notifications",

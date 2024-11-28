@@ -23,10 +23,10 @@ const Navbar = () => {
     <>
       <nav className="container relative flex items-center justify-between px-8 py-4 bg-white shadow-md">
         <NavLogo />
-        <Search />
 
         {/* Navbar Icons */}
         <div className="items-center hidden space-x-6 text-gray-500 lg:flex">
+          <Search />
           <NavLink
             to="/wishlists"
             className={({ isActive }) => (isActive ? "text-teal-500" : "")}
