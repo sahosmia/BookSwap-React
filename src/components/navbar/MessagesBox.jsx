@@ -23,6 +23,8 @@ const MessageBox = () => {
         const response = await api.get(`conversations/user/${user._id}`);
         if (response.status === 200) {
           const data = response.data;
+          console.log(response.data);
+
           setConversations(data || []);
         }
       } catch (error) {
@@ -99,6 +101,9 @@ const MessageBox = () => {
                           : messages.creator.name}
                       </span>
                     </p>
+                    <div className="flex text-gray-400 text-md">
+                      <span>{messages.lastMessage.text}</span>
+                    </div>
                     <div className="flex text-gray-400 text-md">
                       <span>{moment(messages.last_updated).fromNow()}</span>
                     </div>

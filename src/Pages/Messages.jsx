@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import api from "../api/api";
@@ -22,37 +22,31 @@ const Messages = () => {
         if (response.status === 200) {
           const data = response.data;
           setLastTime(data?.conversation?.last_updated);
-          if (data?.conversation?.creator._id !== user.id) {
+          setMessages(data?.messages);
+
+          if (data?.conversation?.creator._id !== user._id) {
             setSender(data?.conversation?.creator);
             setParticipant(data?.conversation?.participant);
           } else {
             setSender(data?.conversation?.participant);
             setParticipant(data?.conversation?.creator);
           }
-          setMessages(data?.messages);
-          console.log(triger);
         }
       } catch (error) {
-        // Handle error
-        console.error(error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    const timeoutId = setTimeout(() => {
-      fetchData();
-    }, 100);
-    return () => clearTimeout(timeoutId);
-  }, [conversationId, user, triger]);
+    fetchData();
+  }, [conversationId, user, triger]); // Depend on triger to refresh
 
   // get inbox data by api call (/api/convertaion)
   const [messages, setMessages] = useState([]);
 
   const handleSendMessage = async () => {
     if (newMessage.trim() === "") {
-      setNewMessage("");
-      return null;
+      return;
     }
-    setTriger((prev) => !prev);
     try {
       const formdata = {
         text: newMessage,
@@ -67,28 +61,27 @@ const Messages = () => {
       });
 
       if (response.status === 200) {
+        setTriger((prev) => !prev);
         setMessages([...messages, response.data]);
+        setNewMessage("");
       } else {
         console.error("Error sending message:", response.data.error);
       }
-
-      setNewMessage("");
     } catch (error) {
       console.error("Error sending message a:", error);
     }
-
   };
 
-  const relative = moment(lastTime).fromNow();
+  const relativeTime = useMemo(() => moment(lastTime).fromNow(), [lastTime]);
 
   return (
     <div className="flex w-[600px] h-[600px] mx-auto  shadow my-6 ">
       <div className="flex flex-col flex-1">
         <div className="flex items-center p-4 bg-white border-b border-gray-300">
-          <AvterImage src={participant.avater} className="mr-1" />
+          <AvterImage src={sender.avater} className="mr-1" />
           <div>
-            <h3 className="text-lg font-semibold">{participant.name}</h3>
-            <h3 className="text-xs text-gray-700">{relative}</h3>
+            <h3 className="text-lg font-semibold">{sender.name}</h3>
+            <h3 className="text-xs text-gray-700">{relativeTime}</h3>
           </div>
         </div>
 
@@ -96,7 +89,7 @@ const Messages = () => {
         <div className="flex flex-col flex-1 p-4 space-y-3 overflow-y-auto">
           {messages.map((message) => (
             <div
-              key={message.id}
+              key={message._id}
               className={`flex ${
                 message.sender === sender._id ? "justify-end" : "justify-start"
               }`}
