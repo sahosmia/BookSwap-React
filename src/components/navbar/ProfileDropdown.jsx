@@ -11,6 +11,7 @@ import { useRegisterModal } from "../../context/RegisterModalContext";
 import { useLoginModal } from "../../context/LoginModalContext";
 import { profileDropdown } from "../../data/dummyData";
 import { useAuth } from "../../context/AuthContext";
+import AvterImage from "../AvterImage";
 
 const ProfileDropdown = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -44,13 +45,7 @@ const ProfileDropdown = () => {
             },
           }}
         >
-          {/* <img src={user?.avater} alt="pr" /> */}
-          <Avatar
-            alt={user?.name}
-            src={
-              user?.avater ? `${user?.avater}` : "/path/to/fallback-image.jpg"
-            }
-          />
+          <AvterImage src={user?.avater} />
         </IconButton>
         <Menu
           sx={{ mt: "45px" }}

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const AvaterUpload = ({ name, avater }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(
-    `http://localhost:5000/uploads/avater/${avater}`
+    `http://localhost:5000/uploads/books/453214180_1671417273673147_7808907609316499759_n-1732802687450.jpeg`
   );
   const { user, updateUser } = useAuth();
 
@@ -47,7 +47,6 @@ const AvaterUpload = ({ name, avater }) => {
       if (response.ok) {
         updateUser(result.data.user);
 
-        console.log(result.data.user);
         toast.success("Avatar uploaded successfully!");
       } else {
         alert(`Error: ${result.message}`);

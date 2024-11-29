@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import BookUploadForm from "../Pages/BookUploadForm";
-import Messages from "../components/navbar/Messages";
+import Messages from "../Pages/Messages";
 import Notification from "../components/navbar/Notification";
 import Profile from "../Pages/Profile";
 import Layouts from "../layouts/Layouts";
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/messages",
+        path: "/messages/:conversationId",
         element: <Messages />,
       },
       {

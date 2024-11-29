@@ -5,6 +5,7 @@ import WishListIcon from "./WishListIcon";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import api from "../../api/api";
 import { toast } from "react-toastify";
+import AvterImage from "../AvterImage";
 const BookItem = ({ book, actionAble = false }) => {
   const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const BookItem = ({ book, actionAble = false }) => {
 
     try {
       const response = await api.delete(`/books/${book.slug}`);
-      toast.success(response.data.message); // Log success message
+      toast.success(response.data.message); 
       window.location.reload();
       return response.data;
     } catch (error) {
@@ -32,6 +33,7 @@ const BookItem = ({ book, actionAble = false }) => {
     event.stopPropagation();
     navigate(`/book/edit/${book.slug}`);
   };
+
   return (
     <div
       className="relative w-[250px] sm:w-full md:w-[250px] xl:w-[350px] mx-auto drop-shadow bg-white overflow-hidden rounded-xl shadow-md  hover:shadow-lg transform hover:scale-105 transition-all duration-300"
@@ -52,17 +54,23 @@ const BookItem = ({ book, actionAble = false }) => {
       </div>
 
       <img
+        crossOrigin="anonymous"
         className="object-cover w-full h-96 md:h-72 lg:h-96"
-        // src={book.cover_photo ? book.cover_photo : DefaultBookImage}
-        src={DefaultBookImage}
+        src={`http://localhost:5000/uploads/books/${book.cover_photo}`}
         alt={book.title}
       />
       <div className="relative my-4 text-center">
         <div className="absolute inline-block -translate-x-1/2 -top-12 left-1/2">
-          <Avatar
+          {/* <AvaterImage
             src={`${book.user.avater}`}
             alt={book.user?.username}
-            sx={{ width: 60, height: 60 }}
+           
+          /> */}
+
+          <AvterImage
+            src={book?.user?.avater}
+            alt={book.user?.username}
+            size={60}
           />
         </div>
         <h2 className="text-xl font-semibold text-gray-900 pt-7 ">

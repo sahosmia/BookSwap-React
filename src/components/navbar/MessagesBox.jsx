@@ -1,64 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 
 import { Popover } from "@mui/material";
 import { BiConversation } from "react-icons/bi";
+import api from "../../api/api";
+import { useAuth } from "../../context/AuthContext";
+import moment from "moment";
 
-const messagesData = [
-  {
-    id: 1,
-    username: "DIm",
-    user_picture: "https://randomuser.me/api/portraits/women/25.jpg",
-    message: "Hi, I'm looking for a book about aviation!",
-  },
-  {
-    id: 2,
-    username: "Zayan",
-    user_picture: "https://randomuser.me/api/portraits/women/25.jpg",
-    message: "I've read it! It's fascinating!",
-  },
-  {
-    id: 3,
-    username: "Abrar",
-    user_picture: "https://randomuser.me/api/portraits/women/25.jpg",
-    message: "I'd love to read it with you!",
-  },
-  {
-    id: 4,
-    username: "Nazim",
-    user_picture: "https://randomuser.me/api/portraits/women/25.jpg",
-    message: "I've heard it's a great book!",
-  },
-  {
-    id: 5,
-    username: "Ramim",
-    user_picture: "https://randomuser.me/api/portraits/women/25.jpg",
-    message: "I'd love to read it with you too!",
-  },
-  {
-    id: 6,
-    username: "Fahim",
-    user_picture: "https://randomuser.me/api/portraits/man/25.jpg",
-    message: "I've read it! It's fascinating!",
-  },
-  {
-    id: 7,
-    username: "Nothing",
-    user_picture: "https://randomuser.me/api/portraits/man/25.jpg",
-    message: "I'd love to read it with you!",
-  },
-  {
-    id: 8,
-    username: "Rose",
-    user_picture: "https://randomuser.me/api/portraits/women/25.jpg",
-    message: "I've heard it's a great book!",
-  },
-];
+import AvaterImage from "./../AvterImage";
+import { useNavigate } from "react-router-dom";
 
 const MessageBox = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [conversations, setConversations] = useState([]);
+  const navigator = useNavigate();
+  const { user } = useAuth();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get(`conversations/user/${user._id}`);
+        if (response.status === 200) {
+          const data = response.data;
+          setConversations(data || []);
+        }
+      } catch (error) {
+        // Handle error
+        console.error(error);
+      }
+    };
+
+    const timeoutId = setTimeout(() => {
+      fetchData();
+    }, 100);
+    return () => clearTimeout(timeoutId);
+  }, [user]);
 
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -66,6 +43,10 @@ const MessageBox = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleClick = (conversationId) => {
+    handleClose();
+    navigator(`/messages/${conversationId}`);
   };
 
   return (
@@ -95,27 +76,41 @@ const MessageBox = () => {
           }}
           sx={{ minWidth: "250px", height: "500px" }}
         >
-          {messagesData.map((messages) => (
-            <Box key={messages.id} sx={{ p: 2, width: "300px" }}>
-              {/* <Typography>{messages.title}</Typography>
-              <Typography>{messages.content}</Typography> */}
-              <div className="flex items-center p-2 hover:bg-gray-300 hover:rounded-lg hover:shadow-md">
-                <img
-                  src={messages.user_picture}
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full"
-                />
-                <div className="ml-3">
-                  <p className="flex items-center  text-md">
-                    <span className="font-semibold">{messages.username}</span>
-                  </p>
-                  <div className="flex text-gray-400 text-md">
-                    <span>You: {messages.message}</span>
+          {conversations.length > 0 ? (
+            conversations.map((messages) => (
+              <Box
+                key={messages._id}
+                sx={{ p: 2, width: "300px" }}
+                onClick={() => handleClick(messages._id)}
+              >
+                <div className="flex items-center p-2 hover:bg-gray-300 hover:rounded-lg hover:shadow-md">
+                  <AvaterImage
+                    src={
+                      messages.creator._id === user._id
+                        ? messages.participant.avater
+                        : messages.creator.avater
+                    }
+                  />
+                  <div className="ml-3">
+                    <p className="flex items-center  text-md">
+                      <span className="font-semibold">
+                        {messages.creator._id === user._id
+                          ? messages.participant.name
+                          : messages.creator.name}
+                      </span>
+                    </p>
+                    <div className="flex text-gray-400 text-md">
+                      <span>{moment(messages.last_updated).fromNow()}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Box>
+            ))
+          ) : (
+            <Box sx={{ p: 2, textAlign: "center" }}>
+              <p className="text-gray-500">No conversations found</p>
             </Box>
-          ))}
+          )}
         </Popover>
       </Box>
     </>

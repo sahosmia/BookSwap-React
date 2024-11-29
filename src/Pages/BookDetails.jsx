@@ -2,13 +2,13 @@ import { useParams } from "react-router-dom";
 import BookOwnerInfo from "../components/book/BookOwnerInfo.jsx";
 import useFetchApi from "../hooks/useFetchApi.js";
 import WishListButton from "../components/book/WishListButton.jsx";
+import { bookImage } from "../util/imageShow.js";
 
 const BookDetails = () => {
   const { slug } = useParams();
 
   const { data: response, loading, error } = useFetchApi(`books/${slug}`);
   const book = response?.data;
-  console.log(book);
 
   // Loading state
   if (loading) {
@@ -36,7 +36,8 @@ const BookDetails = () => {
       {/* Book Cover */}
       <div className="lg:w-1/3">
         <img
-          src={book.cover_photo}
+        crossOrigin="anonymous"
+          src={bookImage(book.cover_photo)}
           alt={book.title}
           className="w-[350px] h-auto rounded-lg shadow"
         />

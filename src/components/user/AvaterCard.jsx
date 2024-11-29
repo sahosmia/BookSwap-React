@@ -1,19 +1,12 @@
-import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 import ProfileInformation from "./ProfileInformation";
+import AvterImage from "../AvterImage";
 
 const AvaterCard = ({ name, avater }) => {
-  const url = `http://localhost:5000/uploads/avater/${avater}`;
-  console.log(url);
 
   return (
     <div className="p-6 pb-10 bg-white rounded-lg shadow-md lg:w-1/3 lg:max-h-fit">
-      <Avatar
-        alt={name}
-        src={url}
-        sx={{ width: 90, height: 90 }}
-        className="mx-auto mb-2"
-      />
+      <AvterImage alt={name} src={avater} size={100} className="mx-auto flex" />
 
       <h2 className="mb-2 text-xl font-semibold text-center text-teal-700">
         {name}

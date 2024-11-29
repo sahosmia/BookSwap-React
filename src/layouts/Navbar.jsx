@@ -13,11 +13,13 @@ import LoginModal from "../components/Modal/LoginModal";
 import Search from "../components/navbar/Search";
 import NavLogo from "../components/navbar/NavLogo";
 import MobileMenu from "../components/navbar/MobileMenu";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { registerModal } = useRegisterModal();
   const { loginModal } = useLoginModal();
+  const { user } = useAuth();
 
   return (
     <>
@@ -33,8 +35,7 @@ const Navbar = () => {
           >
             <MdFavorite className="w-8 h-10 hover:text-teal-500 " />
           </NavLink>
-
-          <MessageBox />
+          {user && <MessageBox />}
           {/* <NotificationBox /> */}
           <ProfileDropdown />
         </div>

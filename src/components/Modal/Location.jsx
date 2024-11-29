@@ -8,7 +8,7 @@ const Location = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(null);
   const [districts, setDistricts] = useState([]);
-  const { updateLocation, location } = useAuth();
+  const { updateLocation } = useAuth();
 
   useEffect(() => {
     api

@@ -33,7 +33,6 @@ const BookUpdatePage = () => {
         const response = await api.get(
           `http://localhost:5000/api/books/${slug}`
         );
-        console.log(response.data.data);
 
         if (response.status === 200) {
           const data = await response.data.data;
@@ -116,7 +115,6 @@ const BookUpdatePage = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(form);
       const result = await response.json();
 
       if (response.ok) {
@@ -128,7 +126,6 @@ const BookUpdatePage = () => {
         } else {
           toast.error(result.error);
         }
-        console.log(result);
       }
     } catch (error) {
       console.error("Error uploading avatar:", error);

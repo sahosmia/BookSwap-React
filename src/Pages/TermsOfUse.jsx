@@ -31,7 +31,6 @@ const TermsOfUse = () => {
 
       if (response.ok) {
         alert("Avatar uploaded successfully!");
-        console.log("Server Response:", result);
       } else {
         alert(`Error: ${result.message}`);
       }

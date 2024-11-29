@@ -7,7 +7,6 @@ const ProfileBook = () => {
 
   const { data, loading } = useFetchApi(`users/${user._id}`);
 
-  console.log(data?.data);
   if (loading) {
     return <p className="text-center text-gray-600">Loading book data...</p>;
   }

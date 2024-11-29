@@ -51,7 +51,6 @@ const LocationFiled = ({ onChange, value }) => {
   // Toggle selection of a district
   const toggleSelection = (item) => {
     setSelectedOptions(item); // Set the selected district
-    console.log(item); // Log the selected item immediately
     setIsOpen(false); // Close dropdown after selecting
     onChange(item._id, "location"); // Pass selected location _id to parent
   };

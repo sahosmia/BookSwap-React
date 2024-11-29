@@ -7,7 +7,6 @@ import { useAuth } from "../../context/AuthContext";
 
 const ProfileUpdateForm = () => {
   const { user, location, login } = useAuth();
-  // console.log(user);
 
   const [userFormData, setUserFormData] = useState({
     name: user.name,
@@ -47,7 +46,6 @@ const ProfileUpdateForm = () => {
         toast.success("Update Successfully!");
       }
     } catch (error) {
-      console.log(error);
 
       const errorData = error.response?.data?.error || null;
 
@@ -64,7 +62,6 @@ const ProfileUpdateForm = () => {
         });
       }
 
-      console.log("Error:", errorData);
     }
   };
   return (

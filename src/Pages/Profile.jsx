@@ -1,7 +1,6 @@
 import ProfileUpdateForm from "../components/user/profileUpdateForm";
 import { useAuth } from "../context/AuthContext";
 import AvaterUpload from "../components/user/AvaterUpload";
-import ProfileInformation from "../components/user/ProfileInformation";
 import AvaterCard from "../components/user/AvaterCard";
 import ProfileBook from "../components/user/ProfileBook";
 
@@ -10,7 +9,6 @@ const Profile = () => {
 
   if (!user) return null;
   const { name, avater } = user;
-  console.log(avater);
 
   return (
     <div className="container min-h-screen p-6 mx-auto my-8 bg-gray-100 rounded-lg ">
@@ -19,7 +17,6 @@ const Profile = () => {
         <AvaterCard name={name} avater={avater} />
 
         <div className="grid gap-5 lg:w-2/3">
-          {/* <ProfileInformation /> */}
           <ProfileUpdateForm />
           <AvaterUpload name={name} avater={avater} />
         </div>
